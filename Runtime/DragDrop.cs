@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Globalization;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -9,19 +8,19 @@ namespace TimeEvaluationUI.Runtime
     public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndDragHandler, IDragHandler
     {
         [SerializeField] Canvas canvas;
-        
+
         RectTransform _rectTransform;
         CanvasGroup _canvasGroup;
         Image _image;
-        
+
         // Radius of the protractor
         const float ScaleRadius = 640f;
-        
+
         Vector2 StartPosition { get; set; }
-        
+
         public float Response { get; set; }
-        
-        GUIStyle guiStyle = new GUIStyle(); 
+
+        readonly GUIStyle guiStyle = new GUIStyle();
 
         void Awake()
         {
@@ -30,13 +29,12 @@ namespace TimeEvaluationUI.Runtime
             StartPosition = transform.localPosition;
             _image = gameObject.GetComponent<Image>();
             _image.color = Color.red;
-            
+
             guiStyle.fontSize = 30;
         }
 
         public void OnPointerDown(PointerEventData eventData)
         {
-            
         }
 
         public void OnBeginDrag(PointerEventData eventData)
@@ -49,18 +47,15 @@ namespace TimeEvaluationUI.Runtime
         {
             _rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
         }
-        
+
         public void OnEndDrag(PointerEventData eventData)
         {
             _canvasGroup.alpha = 1f;
-            
+
             var circlePosition = (Vector2) transform.localPosition;
             var diff = circlePosition - StartPosition;
             var angle = Vector2.SignedAngle(Vector2.left, diff.normalized);
-            
-            Debug.Log(angle);
-            Debug.Log(diff.magnitude);
-            
+
             if (Mathf.Abs(diff.magnitude - ScaleRadius) < 20f && angle < 180f && angle > 0)
             {
                 _image.color = Color.green;
@@ -69,12 +64,10 @@ namespace TimeEvaluationUI.Runtime
             }
             else
             {
-                eventData.pointerDrag.GetComponent<CanvasGroup>().blocksRaycasts = true;
+                _canvasGroup.blocksRaycasts = true;
             }
-            
-            eventData.pointerDrag.GetComponent<CanvasGroup>().blocksRaycasts = true;
         }
-        
+
         IEnumerator WaitForSeconds(float seconds)
         {
             yield return new WaitForSeconds(seconds);
@@ -85,15 +78,15 @@ namespace TimeEvaluationUI.Runtime
         {
             transform.localPosition = StartPosition;
             _image.color = Color.red;
+            _canvasGroup.blocksRaycasts = true;
         }
-        
+
         void OnGUI()
         {
-            
             if (Response != 0)
                 GUI.Label(
-                    new Rect (50, 25, 300, 20), 
-                    "Response: " + (int) Response + " ms", 
+                    new Rect(50, 25, 300, 20),
+                    "Response: " + (int) Response + " ms",
                     guiStyle);
         }
     }
