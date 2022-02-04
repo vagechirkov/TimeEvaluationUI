@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -11,18 +12,20 @@ namespace TimeEvaluationUI.Runtime
         
         RectTransform _rectTransform;
         CanvasGroup _canvasGroup;
+        Image _image;
         
         // Radius of the protractor
         const float ScaleRadius = 228f;
         
         Vector2 StartPosition { get; set; }
-        bool IsOnScale { get; set; }
 
         void Awake()
         {
             _rectTransform = GetComponent<RectTransform>();
             _canvasGroup = GetComponent<CanvasGroup>();
             StartPosition = transform.localPosition;
+            _image = gameObject.GetComponent<Image>();
+            _image.color = Color.red;
         }
 
         public void OnPointerDown(PointerEventData eventData)
@@ -51,8 +54,9 @@ namespace TimeEvaluationUI.Runtime
             
             if (Mathf.Abs(diff.magnitude - ScaleRadius) < 10f && angle < 90f)
             {
-                var circleImage = gameObject.GetComponent<Image>();
-                circleImage.color = Color.green;
+                _image.color = Color.green;
+                StartCoroutine(WaitForSeconds(2f));
+                
             }
             else
             {
@@ -63,6 +67,18 @@ namespace TimeEvaluationUI.Runtime
             Debug.Log("Dist: " + diff.magnitude);
             eventData.pointerDrag.GetComponent<CanvasGroup>().blocksRaycasts = true;
         }
+        
+        IEnumerator WaitForSeconds(float seconds)
+        {
+            yield return new WaitForSeconds(seconds);
+            ResetSlider();
+        }
 
+        void ResetSlider()
+        {
+            transform.localPosition = StartPosition;
+            _image.color = Color.red;
+        }
+        
     }
 }
