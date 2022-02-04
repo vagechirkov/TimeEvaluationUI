@@ -57,7 +57,7 @@ namespace TimeEvaluationUI.Runtime
             Debug.Log(angle);
             Debug.Log(diff.magnitude);
             
-            if (Mathf.Abs(diff.magnitude - ScaleRadius) < 10f && angle < 180f && angle > 0)
+            if (Mathf.Abs(diff.magnitude - ScaleRadius) < 20f && angle < 180f && angle > 0)
             {
                 _image.color = Color.green;
                 Response = angle / 180f * 1000f;
