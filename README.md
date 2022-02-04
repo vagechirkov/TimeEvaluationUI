@@ -1,6 +1,10 @@
-[![pages-build-deployment](https://github.com/vagechirkov/TimeEvaluationUI/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/vagechirkov/TimeEvaluationUI/actions/workflows/pages/pages-build-deployment)
+<center>
 
 # Time Evaluation UI
+
+[![pages-build-deployment](https://github.com/vagechirkov/TimeEvaluationUI/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/vagechirkov/TimeEvaluationUI/actions/workflows/pages/pages-build-deployment)
+
+</center>
 
 The time evaluation tool to use in psychological experiments in Unity.
 
