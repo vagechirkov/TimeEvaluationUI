@@ -560,7 +560,7 @@ Temporary Items
 !Documentation~
 !*.meta
 
-
+Scale.png
 
 ## rm all files
 # git rm -r --cached .
