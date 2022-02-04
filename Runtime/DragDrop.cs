@@ -81,5 +81,11 @@ namespace TimeEvaluationUI.Runtime
             _image.color = Color.red;
         }
         
+        void OnGUI()
+        {
+            
+            if (Response != 0)
+                GUI.Label(new Rect (50, 25, 300, 20), "Response: " + Response.ToString(CultureInfo.CurrentCulture));
+        }
     }
 }
