@@ -6,10 +6,10 @@ namespace TimeEvaluationUI.Runtime
 {
     public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndDragHandler, IDragHandler
     {
-        [SerializeField] private Canvas canvas;
+        [SerializeField] Canvas canvas;
         
-        private RectTransform _rectTransform;
-        private CanvasGroup _canvasGroup;
+        RectTransform _rectTransform;
+        CanvasGroup _canvasGroup;
 
         void Awake()
         {
@@ -33,7 +33,7 @@ namespace TimeEvaluationUI.Runtime
         {
             Debug.Log("OnEndDrag");
             _canvasGroup.alpha = 1f;
-            _canvasGroup.blocksRaycasts = true;
+            // _canvasGroup.blocksRaycasts = true;
         }
 
         public void OnDrag(PointerEventData eventData)
