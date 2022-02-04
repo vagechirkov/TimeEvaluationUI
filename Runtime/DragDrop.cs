@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Globalization;
 using UnityEngine;
@@ -16,7 +15,7 @@ namespace TimeEvaluationUI.Runtime
         Image _image;
         
         // Radius of the protractor
-        const float ScaleRadius = 228f;
+        const float ScaleRadius = 640f;
         
         Vector2 StartPosition { get; set; }
         
@@ -54,6 +53,9 @@ namespace TimeEvaluationUI.Runtime
             var circlePosition = (Vector2) transform.localPosition;
             var diff = circlePosition - StartPosition;
             var angle = Vector2.SignedAngle(Vector2.left, diff.normalized);
+            
+            Debug.Log(angle);
+            Debug.Log(diff.magnitude);
             
             if (Mathf.Abs(diff.magnitude - ScaleRadius) < 10f && angle < 180f && angle > 0)
             {
