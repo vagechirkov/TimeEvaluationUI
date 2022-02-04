@@ -1,0 +1,23 @@
+{
+  "name": "com.vagechirkov.timeevaluationui",
+  "version": "1.0.0",
+  "displayName": "Time Evaluation UI",
+  "description": "Time Evaluation User Interface for Sense of agency experiment.",
+  "unity": "2020.3",
+  "unityRelease": "26f1",
+  "author": {
+    "name": "Valerii Chirkov",
+    "email": "vagechirkov@gmail.com",
+    "url": "https://github.com/vagechirkov"
+  },
+  "dependencies": {
+    "com.unity.textmeshpro": "3.0.6"
+  },
+  "samples": [
+    {
+      "displayName": "Time Evaluation User Interface",
+      "description": "Time Evaluation User Interface for Sense of agency experiment",
+      "path": "Samples/SocialDecisionExampleScenes"
+    }
+  ]
+}
