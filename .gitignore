@@ -561,6 +561,7 @@ Temporary Items
 !*.meta
 
 Scale.png
+Scale.png.meta
 
 ## rm all files
 # git rm -r --cached .
