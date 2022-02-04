@@ -20,6 +20,8 @@ namespace TimeEvaluationUI.Runtime
         Vector2 StartPosition { get; set; }
         
         public float Response { get; set; }
+        
+        GUIStyle guiStyle = new GUIStyle(); 
 
         void Awake()
         {
@@ -28,6 +30,8 @@ namespace TimeEvaluationUI.Runtime
             StartPosition = transform.localPosition;
             _image = gameObject.GetComponent<Image>();
             _image.color = Color.red;
+            
+            guiStyle.fontSize = 30;
         }
 
         public void OnPointerDown(PointerEventData eventData)
@@ -87,7 +91,10 @@ namespace TimeEvaluationUI.Runtime
         {
             
             if (Response != 0)
-                GUI.Label(new Rect (50, 25, 300, 20), "Response: " + Response.ToString(CultureInfo.CurrentCulture));
+                GUI.Label(
+                    new Rect (50, 25, 300, 20), 
+                    "Response: " + (int) Response + " ms", 
+                    guiStyle);
         }
     }
 }
