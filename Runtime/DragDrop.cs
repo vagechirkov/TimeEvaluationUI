@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Globalization;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -18,6 +19,8 @@ namespace TimeEvaluationUI.Runtime
         const float ScaleRadius = 228f;
         
         Vector2 StartPosition { get; set; }
+        
+        public float Response { get; set; }
 
         void Awake()
         {
@@ -50,21 +53,19 @@ namespace TimeEvaluationUI.Runtime
             
             var circlePosition = (Vector2) transform.localPosition;
             var diff = circlePosition - StartPosition;
-            var angle = Vector2.Angle(diff.normalized, Vector2.down);
+            var angle = Vector2.SignedAngle(Vector2.left, diff.normalized);
             
-            if (Mathf.Abs(diff.magnitude - ScaleRadius) < 10f && angle < 90f)
+            if (Mathf.Abs(diff.magnitude - ScaleRadius) < 10f && angle < 180f && angle > 0)
             {
                 _image.color = Color.green;
+                Response = angle / 180f * 1000f;
                 StartCoroutine(WaitForSeconds(2f));
-                
             }
             else
             {
                 eventData.pointerDrag.GetComponent<CanvasGroup>().blocksRaycasts = true;
             }
-                
-            Debug.Log("Angle: " + angle);
-            Debug.Log("Dist: " + diff.magnitude);
+            
             eventData.pointerDrag.GetComponent<CanvasGroup>().blocksRaycasts = true;
         }
         
