@@ -6,31 +6,40 @@ namespace TimeEvaluationUI.Runtime
 {
     public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndDragHandler, IDragHandler
     {
+        [SerializeField] private Canvas canvas;
+        
         private RectTransform _rectTransform;
+        private CanvasGroup _canvasGroup;
 
         void Awake()
         {
             _rectTransform = GetComponent<RectTransform>();
+            _canvasGroup = GetComponent<CanvasGroup>();
         }
 
         public void OnPointerDown(PointerEventData eventData)
         {
-            throw new System.NotImplementedException();
+            Debug.Log("OnPointerDown");
         }
 
         public void OnBeginDrag(PointerEventData eventData)
         {
-            throw new System.NotImplementedException();
+            Debug.Log("OnBeginDrag");
+            _canvasGroup.alpha = .6f;
+            _canvasGroup.blocksRaycasts = false;
         }
 
         public void OnEndDrag(PointerEventData eventData)
         {
-            throw new System.NotImplementedException();
+            Debug.Log("OnEndDrag");
+            _canvasGroup.alpha = 1f;
+            _canvasGroup.blocksRaycasts = true;
         }
 
         public void OnDrag(PointerEventData eventData)
         {
-            throw new System.NotImplementedException();
+            Debug.Log("OnDrag");
+            _rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
         }
     }
 }
