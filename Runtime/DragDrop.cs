@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -15,6 +16,7 @@ namespace TimeEvaluationUI.Runtime
 
         // Radius of the protractor
         const float ScaleRadius = 640f;
+        const float PositionPrecisionError = 20f;
 
         Vector2 StartPosition { get; set; }
 
@@ -46,25 +48,30 @@ namespace TimeEvaluationUI.Runtime
         public void OnDrag(PointerEventData eventData)
         {
             _rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
+            var (magnitude, angle) = EstimateAngleAndMagnitude();
+
+            if (Mathf.Abs(magnitude - ScaleRadius) < PositionPrecisionError && angle < 180f && angle > 0)
+                _image.color = Color.blue;
+            else
+                _image.color = Color.red;
         }
 
         public void OnEndDrag(PointerEventData eventData)
         {
             _canvasGroup.alpha = 1f;
-
-            var circlePosition = (Vector2) transform.localPosition;
-            var diff = circlePosition - StartPosition;
-            var angle = Vector2.SignedAngle(Vector2.left, diff.normalized);
-
-            if (Mathf.Abs(diff.magnitude - ScaleRadius) < 20f && angle < 180f && angle > 0)
+            var (magnitude, angle) = EstimateAngleAndMagnitude();
+            if (Mathf.Abs(magnitude - ScaleRadius) < PositionPrecisionError && angle < 180f && angle > 0)
             {
                 _image.color = Color.green;
                 Response = angle / 180f * 1000f;
+                // add 180 degrees because 0 is to the left in EstimateAngleAndMagnitude
+                _rectTransform.anchoredPosition = StartPosition + GetPositionOnCircle(angle + 180f);
                 StartCoroutine(WaitForSeconds(2f));
             }
             else
             {
                 _canvasGroup.blocksRaycasts = true;
+                _rectTransform.anchoredPosition = StartPosition;
             }
         }
 
@@ -79,6 +86,25 @@ namespace TimeEvaluationUI.Runtime
             transform.localPosition = StartPosition;
             _image.color = Color.red;
             _canvasGroup.blocksRaycasts = true;
+        }
+
+        // return angle and magnitude
+        Tuple<float, float> EstimateAngleAndMagnitude()
+        {
+            var circlePosition = (Vector2) transform.localPosition;
+            var diff = circlePosition - StartPosition;
+            var angle = Vector2.SignedAngle(Vector2.left, diff.normalized);
+            var magnitude = diff.magnitude;
+
+            return new Tuple<float, float>(magnitude, angle);
+        }
+
+        Vector2 GetPositionOnCircle(float degrees)
+        {
+            var radians = degrees * Mathf.Deg2Rad;
+            var x = Mathf.Cos(radians);
+            var y = Mathf.Sin(radians);
+            return new Vector2(x, y) * ScaleRadius;
         }
 
         void OnGUI()
