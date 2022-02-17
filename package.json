@@ -17,7 +17,7 @@
     {
       "displayName": "Time Evaluation User Interface",
       "description": "Time Evaluation User Interface for Sense of agency experiment",
-      "path": "Samples/SocialDecisionExampleScenes"
+      "path": "Samples/TimeEvaluationUI"
     }
   ]
 }
