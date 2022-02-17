@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -20,9 +19,7 @@ namespace TimeEvaluationUI.Runtime
 
         Vector2 StartPosition { get; set; }
 
-        public float Response { get; set; } = -1f;
-
-        // readonly GUIStyle guiStyle = new GUIStyle();
+        public float Response { get; private set; } = -1f;
 
         void Awake()
         {
@@ -31,8 +28,6 @@ namespace TimeEvaluationUI.Runtime
             StartPosition = transform.localPosition;
             _image = gameObject.GetComponent<Image>();
             _image.color = Color.red;
-
-            // guiStyle.fontSize = 30;
         }
 
         public void OnPointerDown(PointerEventData eventData)
@@ -73,14 +68,6 @@ namespace TimeEvaluationUI.Runtime
                 _rectTransform.anchoredPosition = StartPosition;
             }
         }
-        
-        public void ResetSlider()
-        {
-            transform.localPosition = StartPosition;
-            _image.color = Color.red;
-            _canvasGroup.blocksRaycasts = true;
-            Response = -1f;
-        }
 
         // return angle and magnitude
         Tuple<float, float> EstimateAngleAndMagnitude()
@@ -93,7 +80,7 @@ namespace TimeEvaluationUI.Runtime
             return new Tuple<float, float>(magnitude, angle);
         }
 
-        Vector2 GetPositionOnCircle(float degrees)
+        static Vector2 GetPositionOnCircle(float degrees)
         {
             var radians = degrees * Mathf.Deg2Rad;
             var x = Mathf.Cos(radians);
@@ -101,13 +88,12 @@ namespace TimeEvaluationUI.Runtime
             return new Vector2(x, y) * ScaleRadius;
         }
 
-        // void OnGUI()
-        // {
-        //     if (Response != 0)
-        //         GUI.Label(
-        //             new Rect(50, 25, 300, 20),
-        //             "Response: " + (int) Response + " ms",
-        //             guiStyle);
-        // }
+        public void ResetSlider()
+        {
+            transform.localPosition = StartPosition;
+            _image.color = Color.red;
+            _canvasGroup.blocksRaycasts = true;
+            Response = -1f;
+        }
     }
 }
