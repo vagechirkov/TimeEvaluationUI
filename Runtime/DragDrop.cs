@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -20,9 +19,7 @@ namespace TimeEvaluationUI.Runtime
 
         Vector2 StartPosition { get; set; }
 
-        public float Response { get; set; }
-
-        readonly GUIStyle guiStyle = new GUIStyle();
+        public float Response { get; private set; } = -1f;
 
         void Awake()
         {
@@ -31,8 +28,6 @@ namespace TimeEvaluationUI.Runtime
             StartPosition = transform.localPosition;
             _image = gameObject.GetComponent<Image>();
             _image.color = Color.red;
-
-            guiStyle.fontSize = 30;
         }
 
         public void OnPointerDown(PointerEventData eventData)
@@ -66,26 +61,12 @@ namespace TimeEvaluationUI.Runtime
                 Response = angle / 180f * 1000f;
                 // add 180 degrees because 0 is to the left in EstimateAngleAndMagnitude
                 _rectTransform.anchoredPosition = StartPosition + GetPositionOnCircle(angle + 180f);
-                StartCoroutine(WaitForSeconds(2f));
             }
             else
             {
                 _canvasGroup.blocksRaycasts = true;
                 _rectTransform.anchoredPosition = StartPosition;
             }
-        }
-
-        IEnumerator WaitForSeconds(float seconds)
-        {
-            yield return new WaitForSeconds(seconds);
-            ResetSlider();
-        }
-
-        void ResetSlider()
-        {
-            transform.localPosition = StartPosition;
-            _image.color = Color.red;
-            _canvasGroup.blocksRaycasts = true;
         }
 
         // return angle and magnitude
@@ -99,7 +80,7 @@ namespace TimeEvaluationUI.Runtime
             return new Tuple<float, float>(magnitude, angle);
         }
 
-        Vector2 GetPositionOnCircle(float degrees)
+        static Vector2 GetPositionOnCircle(float degrees)
         {
             var radians = degrees * Mathf.Deg2Rad;
             var x = Mathf.Cos(radians);
@@ -107,13 +88,12 @@ namespace TimeEvaluationUI.Runtime
             return new Vector2(x, y) * ScaleRadius;
         }
 
-        void OnGUI()
+        public void ResetSlider()
         {
-            if (Response != 0)
-                GUI.Label(
-                    new Rect(50, 25, 300, 20),
-                    "Response: " + (int) Response + " ms",
-                    guiStyle);
+            transform.localPosition = StartPosition;
+            _image.color = Color.red;
+            _canvasGroup.blocksRaycasts = true;
+            Response = -1f;
         }
     }
 }
