@@ -35,7 +35,7 @@ namespace TimeEvaluationUI.Runtime
             yield return new WaitUntil(() => dragDrop.Finished);
             Response = dragDrop.Response;
 
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.5f);
             dragDrop.ResetSlider();
             timeEvaluationCanvas.SetActive(false);
 
