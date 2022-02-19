@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
@@ -6,22 +5,22 @@ namespace TimeEvaluationUI.Runtime
 {
     public class TestExperimentManager : MonoBehaviour
     {
-        [SerializeField] DragDrop dragDrop;
-        
-        
-        void Update()
+        [SerializeField] TimeEvaluationController timeEvaluation;
+
+
+        void Start()
         {
-            if (Math.Abs(dragDrop.Response - -1f) > 0.1)
-            {
-                StartCoroutine(WaitForSeconds(2f));
-            }
-            
+            StartCoroutine(RunExperiment());
         }
-        
-        IEnumerator WaitForSeconds(float seconds)
+
+        IEnumerator RunExperiment()
         {
-            yield return new WaitForSeconds(seconds);
-            dragDrop.ResetSlider();
+            while (true)
+            {
+                timeEvaluation.Delay = Random.Range(100, 950);
+                timeEvaluation.IsPractice = true;
+                yield return StartCoroutine(timeEvaluation.TimeEvaluation());
+            }
         }
 
     }
