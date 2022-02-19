@@ -60,7 +60,7 @@ namespace TimeEvaluationUI.Runtime
             var (magnitude, angle) = EstimateAngleAndMagnitude();
             if (Mathf.Abs(magnitude - ScaleRadius) < PositionPrecisionError && angle < 180f && angle > 0)
             {
-                _image.color = Color.green;
+                _image.color = Color.blue;
                 Response = angle / 180f * 1000f;
                 // add 180 degrees because 0 is to the left in EstimateAngleAndMagnitude
                 _rectTransform.anchoredPosition = StartPosition + Utils.GetPositionOnCircle(angle + 180f, ScaleRadius);
