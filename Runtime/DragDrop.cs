@@ -83,7 +83,7 @@ namespace TimeEvaluationUI.Runtime
             return new Tuple<float, float>(magnitude, angle);
         }
 
-        static Vector2 GetPositionOnCircle(float degrees)
+        public static Vector2 GetPositionOnCircle(float degrees)
         {
             var radians = degrees * Mathf.Deg2Rad;
             var x = Mathf.Cos(radians);

@@ -8,9 +8,11 @@ namespace TimeEvaluationUI.Runtime
     {
         [SerializeField] DragDrop dragDrop;
         
+        [SerializeField] Feedback feedback;
+        
         [SerializeField] GameObject timeEvaluationCanvas;
         
-        // [SerializeField] GameObject Feedback;
+        [SerializeField] GameObject feedbackCanvas;
         
         public int Delay { get; set; }
         
@@ -19,18 +21,31 @@ namespace TimeEvaluationUI.Runtime
         public bool IsPractice { get; set; }
         
         
-        IEnumerator timeEvaluation()
+        public IEnumerator TimeEvaluation()
         {
             dragDrop.ResetSlider();
             timeEvaluationCanvas.SetActive(true);
 
-            yield return new WaitUntil(() => Math.Abs(dragDrop.Response - -1f) > 0.1);
+            yield return new WaitUntil(() => dragDrop.Finished);
 
+            yield return new WaitForSeconds(0.5f);
+            
             if (IsPractice)
-                // int rr = 4;
+            {
+                feedbackCanvas.SetActive(true);
+                var correctPosition = DragDrop.GetPositionOnCircle(Delay / 1000f * 180f);
+                var subjectPosition = DragDrop.GetPositionOnCircle(Response / 1000f * 180f);
+                feedback.ShowFeedback(correctPosition, subjectPosition);
+                
+                yield return new WaitForSeconds(2f);
+            }
             else
+            {
                 timeEvaluationCanvas.SetActive(false);
-           
+            }
+            
+            timeEvaluationCanvas.SetActive(false);
+            feedbackCanvas.SetActive(false);
         }
 
     }
