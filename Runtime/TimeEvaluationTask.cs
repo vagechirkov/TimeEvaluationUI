@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace TimeEvaluationUI.Runtime
 {
-    public class TimeEvaluationController : MonoBehaviour
+    public class TimeEvaluationTask : MonoBehaviour
     {
         [SerializeField] DragDrop dragDrop;
         
@@ -30,22 +30,23 @@ namespace TimeEvaluationUI.Runtime
 
         public IEnumerator TimeEvaluation()
         {
-            dragDrop.ResetSlider();
             timeEvaluationCanvas.SetActive(true);
 
             yield return new WaitUntil(() => dragDrop.Finished);
             Response = dragDrop.Response;
+            dragDrop.ResetSlider();
 
             yield return new WaitForSeconds(0.5f);
             
             if (IsPractice)
             {
+                timeEvaluationCanvas.SetActive(false);
                 feedbackCanvas.SetActive(true);
                 var correctPosition = Utils.GetPositionOnCircle((Delay / 1000f) * 180f + 180f, ProtractorRadius);
                 var subjectPosition = Utils.GetPositionOnCircle((Response / 1000f) * 180f + 180f, ProtractorRadius);
                 feedback.ShowFeedback(correctPosition, subjectPosition);
-                
-                yield return new WaitForSeconds(2f);
+                yield return new WaitUntil(() => feedback.Continue);
+                yield return new WaitForSeconds(0.5f);
             }
             else
             {
