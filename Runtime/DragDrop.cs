@@ -19,7 +19,9 @@ namespace TimeEvaluationUI.Runtime
 
         Vector2 StartPosition { get; set; }
 
-        public float Response { get; private set; } = -1f;
+        public float Response { get; private set; }
+        
+        public bool Finished { get; private set; }
 
         void Awake()
         {
@@ -61,6 +63,7 @@ namespace TimeEvaluationUI.Runtime
                 Response = angle / 180f * 1000f;
                 // add 180 degrees because 0 is to the left in EstimateAngleAndMagnitude
                 _rectTransform.anchoredPosition = StartPosition + GetPositionOnCircle(angle + 180f);
+                Finished = true;
             }
             else
             {
@@ -93,7 +96,8 @@ namespace TimeEvaluationUI.Runtime
             transform.localPosition = StartPosition;
             _image.color = Color.red;
             _canvasGroup.blocksRaycasts = true;
-            Response = -1f;
+            Response = 0;
+            Finished = false;
         }
     }
 }

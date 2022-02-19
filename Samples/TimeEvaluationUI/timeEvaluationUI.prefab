@@ -143,7 +143,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5394810847690223270}
-  - component: {fileID: 2692214918906890673}
+  - component: {fileID: 2786465432894228558}
   m_Layer: 0
   m_Name: timeEvaluationUI
   m_TagString: Untagged
@@ -166,7 +166,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2692214918906890673
+--- !u!114 &2786465432894228558
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -178,6 +178,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b2ba6b514fe34b9786daf85fb41a581, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dragDrop: {fileID: 5394810849502100032}
+  timeEvaluationCanvas: {fileID: 5394810847916212183}
 --- !u!1 &5394810847916212183
 GameObject:
   m_ObjectHideFlags: 0
