@@ -7,15 +7,11 @@ namespace TimeEvaluationUI.Runtime
     public class TestExperimentManager : MonoBehaviour
     {
         [SerializeField] TimeEvaluationTask timeEvaluation;
-
-        readonly GUIStyle _guiStyle = new GUIStyle();
+        
+        bool _isPractice;
 
         void Start()
         {
-            _guiStyle.fontSize = 30;
-            var color = Color.black;
-            color.a = 0.5f;
-            _guiStyle.normal.textColor = color;
             StartCoroutine(RunExperiment());
         }
 
@@ -24,7 +20,6 @@ namespace TimeEvaluationUI.Runtime
             while (true)
             {
                 timeEvaluation.Delay = Random.Range(100, 950);
-                timeEvaluation.IsPractice = true;
                 yield return StartCoroutine(timeEvaluation.TimeEvaluation());
                 timeEvaluation.Response = 0;
             }
@@ -32,18 +27,34 @@ namespace TimeEvaluationUI.Runtime
 
         void OnGUI()
         {
+            var guiStyle = new GUIStyle();
+            var toggleStyle = new GUIStyle(GUI.skin.toggle);
+            
+            guiStyle.fontSize = 30;
+            toggleStyle.fontSize = 30;
+            var color = Color.black;
+            color.a = 0.5f;
+            guiStyle.normal.textColor = color;
+
+
             GUI.Label(
-                new Rect(50, 25, 300, 20), "Debug info:", _guiStyle);
+                new Rect(50, 25, 300, 20), "Debug info", guiStyle);
 
             GUI.Label(
                 new Rect(50, 75, 300, 20),
                 "Response: " + (int) timeEvaluation.Response + " ms",
-                _guiStyle);
+                guiStyle);
 
             GUI.Label(
                 new Rect(50, 125, 300, 20),
                 "Delay: " + (int) timeEvaluation.Delay + " ms",
-                _guiStyle);
+                guiStyle);
+            
+            _isPractice = GUI.Toggle(
+                new Rect(50, 175, 300, 40), 
+                _isPractice, "Practice", toggleStyle);
+            timeEvaluation.IsPractice = _isPractice;
         }
+        
     }
 }

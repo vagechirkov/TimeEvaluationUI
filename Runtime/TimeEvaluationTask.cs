@@ -34,26 +34,19 @@ namespace TimeEvaluationUI.Runtime
 
             yield return new WaitUntil(() => dragDrop.Finished);
             Response = dragDrop.Response;
-            dragDrop.ResetSlider();
 
             yield return new WaitForSeconds(0.5f);
-            
-            if (IsPractice)
-            {
-                timeEvaluationCanvas.SetActive(false);
-                feedbackCanvas.SetActive(true);
-                var correctPosition = Utils.GetPositionOnCircle((Delay / 1000f) * 180f + 180f, ProtractorRadius);
-                var subjectPosition = Utils.GetPositionOnCircle((Response / 1000f) * 180f + 180f, ProtractorRadius);
-                feedback.ShowFeedback(correctPosition, subjectPosition);
-                yield return new WaitUntil(() => feedback.Continue);
-                yield return new WaitForSeconds(0.5f);
-            }
-            else
-            {
-                timeEvaluationCanvas.SetActive(false);
-            }
-            
+            dragDrop.ResetSlider();
             timeEvaluationCanvas.SetActive(false);
+
+            if (!IsPractice) yield break;
+            
+            feedbackCanvas.SetActive(true);
+            var correctPosition = Utils.GetPositionOnCircle((Delay / 1000f) * 180f + 180f, ProtractorRadius);
+            var subjectPosition = Utils.GetPositionOnCircle((Response / 1000f) * 180f + 180f, ProtractorRadius);
+            feedback.ShowFeedback(correctPosition, subjectPosition);
+            yield return new WaitUntil(() => feedback.Continue);
+            yield return new WaitForSeconds(0.5f);
             feedbackCanvas.SetActive(false);
             feedback.ResetFeedback();
         }
