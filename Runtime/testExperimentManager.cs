@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace TimeEvaluationUI.Runtime
 {
-    public class testExperimentManager : MonoBehaviour
+    public class TestExperimentManager : MonoBehaviour
     {
     
         [SerializeField] DragDrop dragDrop;

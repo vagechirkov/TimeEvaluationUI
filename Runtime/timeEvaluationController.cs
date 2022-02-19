@@ -1,18 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class timeEvaluationController : MonoBehaviour
+namespace TimeEvaluationUI.Runtime
 {
-    // Start is called before the first frame update
-    void Start()
+    public class TimeEvaluationController : MonoBehaviour
     {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
