@@ -14,7 +14,7 @@ namespace TimeEvaluationUI.Runtime
         
         [SerializeField] GameObject feedbackCanvas;
 
-        public int Delay { get; set; }
+        public float Delay { get; set; }
         
         public float Response { get; set; }
         
