@@ -14,12 +14,15 @@ namespace TimeEvaluationUI.Runtime
         Image _image;
 
         // Radius of the protractor
-        const float ScaleRadius = 640f;
         const float PositionPrecisionError = 20f;
 
         Vector2 StartPosition { get; set; }
+        
+        public float ScaleRadius { get; set; } = 640f;
 
-        public float Response { get; private set; } = -1f;
+        public float Response { get; private set; }
+        
+        public bool Finished { get; private set; }
 
         void Awake()
         {
@@ -60,7 +63,8 @@ namespace TimeEvaluationUI.Runtime
                 _image.color = Color.green;
                 Response = angle / 180f * 1000f;
                 // add 180 degrees because 0 is to the left in EstimateAngleAndMagnitude
-                _rectTransform.anchoredPosition = StartPosition + GetPositionOnCircle(angle + 180f);
+                _rectTransform.anchoredPosition = StartPosition + Utils.GetPositionOnCircle(angle + 180f, ScaleRadius);
+                Finished = true;
             }
             else
             {
@@ -79,21 +83,15 @@ namespace TimeEvaluationUI.Runtime
 
             return new Tuple<float, float>(magnitude, angle);
         }
-
-        static Vector2 GetPositionOnCircle(float degrees)
-        {
-            var radians = degrees * Mathf.Deg2Rad;
-            var x = Mathf.Cos(radians);
-            var y = Mathf.Sin(radians);
-            return new Vector2(x, y) * ScaleRadius;
-        }
+        
 
         public void ResetSlider()
         {
             transform.localPosition = StartPosition;
             _image.color = Color.red;
             _canvasGroup.blocksRaycasts = true;
-            Response = -1f;
+            Response = 0;
+            Finished = false;
         }
     }
 }
