@@ -6,8 +6,8 @@ namespace TimeEvaluationUI.Runtime
 {
     public class TestExperimentManager : MonoBehaviour
     {
-    
         [SerializeField] DragDrop dragDrop;
+        
         
         void Update()
         {
