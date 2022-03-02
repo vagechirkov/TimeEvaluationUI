@@ -14,7 +14,7 @@ namespace TimeEvaluationUI.Runtime
         Image _image;
 
         // Radius of the protractor
-        const float PositionPrecisionError = 20f;
+        const float PositionPrecisionError = 60f;
 
         Vector2 StartPosition { get; set; }
         
@@ -47,8 +47,8 @@ namespace TimeEvaluationUI.Runtime
         {
             _rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
             var (magnitude, angle) = EstimateAngleAndMagnitude();
-
-            if (Mathf.Abs(magnitude - ScaleRadius) < PositionPrecisionError && angle < 180f && angle > 0)
+            var diff = ScaleRadius - magnitude;
+            if (diff < PositionPrecisionError && diff > 0 && angle < 180f && angle > 0)
                 _image.color = Color.blue;
             else
                 _image.color = Color.red;
@@ -58,7 +58,8 @@ namespace TimeEvaluationUI.Runtime
         {
             _canvasGroup.alpha = 1f;
             var (magnitude, angle) = EstimateAngleAndMagnitude();
-            if (Mathf.Abs(magnitude - ScaleRadius) < PositionPrecisionError && angle < 180f && angle > 0)
+            var diff = ScaleRadius - magnitude;
+            if (diff < PositionPrecisionError && diff > 0 && angle < 180f && angle > 0)
             {
                 _image.color = Color.blue;
                 Response = angle / 180f * 1000f;
