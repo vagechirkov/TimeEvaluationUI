@@ -24,7 +24,7 @@ namespace TimeEvaluationUI.Runtime
         public bool IsPractice { get; set; }
 
         // Skip button is pressed
-        bool IsSkip { get; set; }
+        public bool IsSkip { get; set; }
 
         const float ProtractorRadius = 640f;
 
@@ -37,10 +37,10 @@ namespace TimeEvaluationUI.Runtime
 
         public IEnumerator TimeEvaluation()
         {
-            timeEvaluationCanvas.SetActive(true);
-
             // Add skip button if not practice
-            if (!IsPractice) skipButton.gameObject.SetActive(true);
+            skipButton.gameObject.SetActive(!IsPractice);
+
+            timeEvaluationCanvas.SetActive(true);
 
             // Wait until dragDrop is done or skip button is pressed
             while (!dragDrop.Finished && !IsSkip) yield return null;
@@ -52,7 +52,6 @@ namespace TimeEvaluationUI.Runtime
             yield return new WaitForSeconds(0.5f);
             dragDrop.ResetSlider();
             timeEvaluationCanvas.SetActive(false);
-            skipButton.gameObject.SetActive(false);
 
             if (!IsPractice) yield break;
 
